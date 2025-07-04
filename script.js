@@ -24,15 +24,24 @@ async function fetchCatsFromApi() {
 }
 
 const gameContainer = document.querySelector(".game");
-  if (gameContainer) {
-    gameContainer.innerHTML = "";
-   }
-
+if (gameContainer) {
+  gameContainer.innerHTML = "";
+}
 
 // TODO: VC VAI MEXER NESSA FUNÇÃO
 async function displayCards() {
   const cats = await fetchCatsFromApi();
-  const duplicatedCats = cats.flatMap(cat => [cat, cat]);
+  const controls = document.querySelector("#controls");
+  const duplicatedCats = cats.flatMap((cat) => [cat, cat]);
+
+  controls.innerHTML = `
+  <button id="playButton" type="button">Play Now</button>
+`;
+  const playButton = document.querySelector("#playButton");
+  playButton.addEventListener("click", () => {
+    const allCards = document.querySelectorAll(".card");
+    allCards.forEach((card) => card.classList.toggle("is-flipped"));
+  });
 
   duplicatedCats.sort(() => Math.random() - 0.5);
 
@@ -49,30 +58,6 @@ async function displayCards() {
     `;
     gameContainer.innerHTML += cardHTML;
   });
-  
- 
-
-   
-
-
-
-  // limpe a tela de jogos (gameContainer)
-
-  // para cada cat, crie um cart-container como abaixo, alterando os valores de id e img
-  //     <div class="card-container" data-id="id">
-  //         <div class="card is-flipped">
-  //             <div class="card-front">
-  //                 <img src="img" alt="Frente" />
-  //             </div>
-  //             <div class="card-back"></div>
-  //         </div>
-  //   </div>
-
-  // pesquise como criar e adicionar HTML sem usar document.createElement()
-
-  // lembre-se de que precisa criar duas cartas para cada cat
-
-  // você também vai precisar embaralhar as cartas
 }
 
 displayCards().then(() => {
